@@ -49,7 +49,7 @@ export default function LocationCard({Location, User}: LocationCardProps) {
             </div>
           </div>
 
-          <div className="bg-slate-700 px-4 py-2">
+          <div className="bg-slate-700 p-6 px-4 py-2" >
             <span className="text-xs font-semibold text-slate-200 uppercase tracking-wide">
               Today
             </span>
@@ -107,16 +107,15 @@ const generateTimeSlots = (timeSlots) => {
         {slot.Rainfall}mm
       </p>
     </div>
-  ));
-};
-
+    ));
+  }
 // this will move the user to the location page based on the id of the location when they click
 function GoToPage(Location) {
   //window.location.href = `location.html?id=${Location}`;
 }
 
 // this will toggle the favorate status of the location for the user when they click the star button
-function ToggleFavorite(Location, user) {
+const ToggleFavorite = (Location, user) => {
   //if user is logged in:
   if (user != false) {
     //fetch the user and add it to the favorite locations if it isn't there already
