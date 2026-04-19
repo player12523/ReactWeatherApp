@@ -11,26 +11,77 @@ export default function LocationCard({Location, User}: LocationCardProps) {
 
   return (
     <>
-        <button
+        <div
           key={Location.id}
-          type="button"
           onClick={() => GoToPage(Location.id)}
-          className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-md transition-shadow"
+          className="bg-white rounded-xl shadow-sm border border-slate-200 
+                    overflow-hidden hover:shadow-md transition-all 
+                    cursor-pointer w-[480px] flex-shrink-0"
         >
-          <div className="bg-slate-700 px-4 py-2">
-            <span className="text-xs font-semibold text-slate-200 uppercase tracking-wide">
-              {Location.ProvinceName}
-            </span>
+          <div className="bg-slate-700 rounded-xl shadow-sm border
+                        border-slate-200 overflow-hidden
+                        hover:shadow-md transition-shadow">
 
-            <button
-              type="button"
-              onClick={() =>
-                ToggleFavorite(Location, User?.favouratesIds || false)
-              }
-              className="text-xs font-semibold text-slate-200 uppercase tracking-wide"
-            >
-              {User?.favouratesIds?.includes(Location.id) ? "★" : "☆"}
-            </button>
+            <dl className="flex items-start justify-between gap-4">
+              
+              {/* Left box: Star + Province */}
+              <div className="flex flex-col items-start border 
+                              border-slate-700 
+                              rounded-md px-2 py-1 bg-slate-700">
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    ToggleFavorite(Location, User?.favouratesIds || false);
+                  }}
+                  className="text-3xl text-yellow-400 leading-none"
+                >
+                  {User?.favouratesIds?.includes(Location.id) ? "★" : "☆"}
+                </button>
+
+                <span className="mt-1 text-3xl font-semibold text-slate-200 uppercase tracking-wide">
+                  {Location.ProvinceName}
+                </span>
+              </div>
+                
+                {/* Right box: Weather Summary Box */}
+              <div className="flex flex-col bg-slate-600/50 rounded-lg px-3 py-2 text-xs text-slate-200 min-w-[120px]">
+                
+                {/* Rainfall */}
+                <div className="flex justify-between">
+                  <span>Rainfall-</span>
+                  <span>{Location.DailyWeather.Rainfall}%</span>
+                </div>
+
+                  {/* Weather Icons and temprate*/}
+                <div className="flex justify-around items-center mt-2">
+                  <div className="flex text-sm flex-col items-center">
+                    Morning
+                    <img
+                      src={`public/images/${Location.DailyWeather.WeatherCodeDay}.png`}
+                      alt="Day"
+                      className="w-5 h-5"
+                    />
+                    <span className="mt-1">
+                      {Location.DailyWeather.TemperatureMax}°C
+                    </span>
+                  </div>
+
+                  <div className="flex text-sm flex-col items-center">
+                    Evening
+                    <img
+                      src={`public/images/${Location.DailyWeather.WeatherCodeNight}.png`}
+                      alt="Night"
+                      className="w-5 h-5"
+                    />
+                    <span className="mt-1">
+                      {Location.DailyWeather.TemperatureMin}°C
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </dl>
+
 
             <div className="p-4 sm:p-5">
               <h2 className="font-bold text-slate-900 text-lg leading-snug">
@@ -48,37 +99,7 @@ export default function LocationCard({Location, User}: LocationCardProps) {
               </dl>
             </div>
           </div>
-
-          <div className="bg-slate-700 p-6 px-4 py-2" >
-            <span className="text-xs font-semibold text-slate-200 uppercase tracking-wide">
-              Today
-            </span>
-
-            <span className="text-xs font-semibold text-slate-200 uppercase tracking-wide">
-              {Location.DailyWeather.Rainfall}mm
-            </span>
-
-            <img
-              src={`public/images/${Location.DailyWeather.WeatherCodeNight}.png`}
-              alt="Night"
-              className="w-4 h-4 mx-1 inline"
-            />
-
-            <img
-              src={`public/images/${Location.DailyWeather.WeatherCodeDay}.png`}
-              alt="Day"
-              className="w-4 h-4 mx-1 inline"
-            />
-
-            <span className="text-xs font-semibold text-slate-200 uppercase tracking-wide">
-              {Location.DailyWeather.TemperatureMax}°C
-            </span>
-
-            <span className="text-xs font-semibold text-slate-200 uppercase tracking-wide">
-              {Location.DailyWeather.TemperatureMin}°C
-            </span>
-          </div>
-        </button>
+        </div>
     </>
   );
 }
