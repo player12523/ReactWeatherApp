@@ -1,4 +1,4 @@
-import type { Location, User } from '../../types/weather';
+import type { Location, User } from '../../data/weather';
 
 export async function toggleFavorite(location: Location, user: User | null) {
   if (!user) {

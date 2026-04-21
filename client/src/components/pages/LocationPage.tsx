@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { callWeatherLocation } from '../utilities/navigation';
-import type { Location } from '../../types/weather';
+import type { Location } from '../../data/weather';
 
 export default function LocationPage() {
   const { id } = useParams();

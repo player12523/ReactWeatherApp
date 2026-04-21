@@ -1,4 +1,4 @@
-import type { HourlyWeather as HourlyWeatherType } from '../../types/weather';
+import type { HourlyWeather as HourlyWeatherType } from '../../data/weather';
 
 interface Props {
   timeSlots: HourlyWeatherType[];

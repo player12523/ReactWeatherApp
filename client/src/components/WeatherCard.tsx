@@ -1,5 +1,5 @@
-import type { Location } from '../types/weather';
-import type { User } from '../types/weather';
+import type { Location } from '../data/weather';
+import type { User } from '../data/weather';
 import { toggleFavorite } from './utilities/toggleFavourate';
 import { HourlyWeather } from './utilities/HourlyWeather';
 import { goToLocation } from './utilities/navigation';

@@ -1,4 +1,4 @@
-import type { Location } from '../../types/weather';
+import type { Location } from '../../data/weather';
 
 export const ROUTES = {
   HOME: '/',

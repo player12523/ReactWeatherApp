@@ -2,12 +2,12 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { ROUTES } from './navigation';
 
 const navItems = [
-  { path: ROUTES.HOME, icon: 'home.png' },
-  { path: ROUTES.LOCATION(0), icon: 'location.png' },
-  { path: ROUTES.LOGIN, icon: 'login.png' },
+  { path: ROUTES.HOME, icon: 'home.jpg' },
+  { path: ROUTES.LOCATION(0), icon: 'location.jpg' },
+  { path: ROUTES.LOGIN, icon: 'login.jpg' },
 ];
 
-const bottomItem = { path: ROUTES.SETTINGS, icon: 'settings.png' };
+const bottomItem = { path: ROUTES.SETTINGS, icon: 'settings.jpg' };
 
 export default function Navigation() {
   const navigate = useNavigate();
