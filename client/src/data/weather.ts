@@ -36,9 +36,3 @@ export interface DailyWeather {
   sundown: string;
   HourlyWeather: HourlyWeather[];
 }
-
-export interface weatherIcon {
-    id: number;
-    WeatherName: string;
-    WeatherImage: ImageBitmap;
-}

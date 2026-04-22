@@ -4,7 +4,7 @@ import { ROUTES } from './navigation';
 const navItems = [
   { path: ROUTES.HOME, icon: 'Home.png' },
   { path: ROUTES.LOCATION(0), icon: 'Location.svg' },
-  { path: ROUTES.LOGIN, icon: 'User.svg' },
+  { path: ROUTES.LOGIN, icon: 'Users.svg' },
 ];
 
 const bottomItem = { path: ROUTES.SETTINGS, icon: 'Settings.svg' };
@@ -57,7 +57,7 @@ export default function Navigation() {
       </div>
 
       {/* Mobile Bottom Navigation */}
-      <div className="sm:hidden fixed bottom-0 left-0 w-full h-16 bg-slate-800 flex justify-around items-center">
+      <div className="sm:hidden fixed bottom-0 left-0 w-full h-16 bg-slate-500 flex justify-around items-center">
 
         {[...navItems, bottomItem].map((item, index) => (
           <button
