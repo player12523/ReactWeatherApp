@@ -2,12 +2,12 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { ROUTES } from './navigation';
 
 const navItems = [
-  { path: ROUTES.HOME, icon: 'home.jpg' },
-  { path: ROUTES.LOCATION(0), icon: 'location.jpg' },
-  { path: ROUTES.LOGIN, icon: 'login.jpg' },
+  { path: ROUTES.HOME, icon: 'Home.png' },
+  { path: ROUTES.LOCATION(0), icon: 'Location.svg' },
+  { path: ROUTES.LOGIN, icon: 'User.svg' },
 ];
 
-const bottomItem = { path: ROUTES.SETTINGS, icon: 'settings.jpg' };
+const bottomItem = { path: ROUTES.SETTINGS, icon: 'Settings.svg' };
 
 export default function Navigation() {
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ export default function Navigation() {
   return (
     <>
       {/* Desktop Sidebar */}
-      <div className="hidden sm:flex fixed top-0 left-0 h-screen w-16 bg-slate-800 flex-col items-center py-4">
+      <div className="hidden sm:flex fixed top-0 left-0 h-screen w-16 bg-slate-500 flex-col items-center py-4">
 
         {/* Top items */}
         <div className="flex flex-col items-center space-y-4 flex-1">
@@ -31,7 +31,7 @@ export default function Navigation() {
               }`}
             >
               <img
-                src={`/navigation/${item.icon}`}
+                src={`../../public/navigation/${item.icon}`}
                 className="w-6 h-6"
               />
             </button>
