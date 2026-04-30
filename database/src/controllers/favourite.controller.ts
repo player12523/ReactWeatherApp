@@ -2,6 +2,7 @@ import prisma from "../lib/prisma";
 import { Request, Response } from "express";
 import { mapLocation } from "../utils/weatherMapper";
 
+// Adds or removes a favourite location for the logged-in user.
 export const toggleFavourite = async (req: Request, res: Response) => {
   const userId = req.userId;
   const locationId = Number(req.params.locationId);
@@ -34,6 +35,7 @@ export const toggleFavourite = async (req: Request, res: Response) => {
   return res.json({ message: "Added", locationId, isFavourite: true });
 };
 
+// Returns weather records saved as favourites by the current user.
 export const getFavouriteWeather = async (req: Request, res: Response) => {
   const userId = req.userId;
 

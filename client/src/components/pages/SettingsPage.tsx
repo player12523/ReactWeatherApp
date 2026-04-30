@@ -1,3 +1,32 @@
+/*
+This is the setting page for the Weather Application. It allows users 
+to customize their experience by changing various settings such as 
+units of measurement, color scheme, and user information (if logged in).
+
+Functional components:
+- Header: shows the title
+- A form to change the units of measurement (Celsius or Fahrenheit)
+- A form to change the color scheme (light or dark mode)
+- A form to update user information (if logged in)
+- A button to save the changes made to the settings
+- the settings page should show information in this priority order:
+  > Account information (if logged in)
+  > Appearance (units of measurement, color scheme)
+  > privacy settings (non-functional component)
+  > Help and support
+  > About the application
+
+Non-functional components:
+- The application should be responsive and work well on both desktop and mobile devices.
+- The design should be clean and modern, using a consistent color scheme and typography.
+- The user information page should only be accessible to logged-in users, and prompt 
+  the users to log in if they are not already logged in.
+
+Additional features imported from modules:
+- Navigation bar: Allows users to navigate between different pages of the application,
+  such as the home page, location page, sign-in page, and settings page.
+*/
+
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { User } from '../../data/weather';
@@ -10,18 +39,21 @@ export default function SettingsPage() {
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState('');
 
+  // Settings are only shown fully when the user is logged in.
   useEffect(() => {
     getCurrentUser()
       .then(setUser)
       .finally(() => setLoading(false));
   }, []);
 
+  // Clears the login token and returns the user to the login page.
   async function handleLogout() {
     await logout();
     setUser(null);
     navigate(ROUTES.LOGIN);
   }
 
+  // Deletes the current account after confirmation.
   async function handleDeleteAccount() {
     const confirmed = confirm('Are you sure you want to delete your account? This cannot be undone.');
     if (!confirmed) return;

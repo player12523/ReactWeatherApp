@@ -1,3 +1,21 @@
+/*
+This is the Location page for the Weather App. It provides users with information about their current location and allows them to search for weather forecasts in different locations. The page includes a search bar, a list of recent searches, and a map showing the user's current location.
+
+Functional components:
+- Header: Displays the title and description of the application.
+- A button for signing up or logging in to the application.
+- a back button to return to the home page.
+
+Non-functional components:
+- The application should be responsive and work well on both desktop and mobile devices.
+- The design should be clean and modern, using a consistent color scheme and typography.
+- the sign-in page shouldn't be accessible if the user is already signed in.
+
+Additional features imported from modules:
+- Navigation bar: Allows users to navigate between different pages of the application,
+  such as the home page, location page, sign-in page, and settings page.
+*/
+
 import { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { login, register } from '../../data/auth';
@@ -10,6 +28,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
 
+  // Handles both login and register using the current form mode.
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
     setMessage('');

@@ -15,6 +15,7 @@ model FavouriteIds {
   userId     Int
 }
 
+// Stores account details for login and saved locations.
 model User {
   id             Int             @id @default(autoincrement())
   username       String
@@ -22,6 +23,7 @@ model User {
   favourites     FavouriteIds[]
 }
 
+// Stores each weather location shown in the app.
 model Location {
   id            Int            @id @default(autoincrement())
   locationName  String
@@ -35,6 +37,7 @@ model Location {
   favourites    FavouriteIds[]
 }
 
+// Stores daily forecast details for a location.
 model DailyWeather {
   id               Int              @id @default(autoincrement())
   dateTime         String
@@ -53,6 +56,7 @@ model DailyWeather {
   hourlyWeather HourlyWeather[]
 }
 
+// Stores hourly forecast details for a daily forecast.
 model HourlyWeather {
   id            Int      @id @default(autoincrement())
   dateTime      String

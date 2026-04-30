@@ -2,6 +2,7 @@ type WeatherIconMap = {
   [key: number]: string;
 };
 
+// Maps database weather codes to local SVG files.
 const weatherIcons: WeatherIconMap = {
   0: 'sunny.svg',
   1: 'partly cloudy.svg',

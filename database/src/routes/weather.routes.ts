@@ -9,6 +9,8 @@ import {
 
 const router = Router();
 
+// Weather CRUD routes.
+
 router.get("/", getWeather);
 router.get("/:id", getWeatherById);
 router.post("/", createWeather);

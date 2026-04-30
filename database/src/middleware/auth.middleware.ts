@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import prisma from "../lib/prisma";
 import { readToken } from "../utils/auth";
 
+// Adds userId onto Express requests after a token is checked.
 declare global {
   namespace Express {
     interface Request {
@@ -10,6 +11,7 @@ declare global {
   }
 }
 
+// Middleware for routes that require the user to be logged in.
 export async function requireAuth(req: Request, res: Response, next: NextFunction) {
   const authHeader = req.headers.authorization;
   const token = authHeader?.startsWith("Bearer ") ? authHeader.slice(7) : null;

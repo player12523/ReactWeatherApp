@@ -1,7 +1,9 @@
 import type { User } from './weather';
 
+// Local storage key for the login token.
 const TOKEN_KEY = 'weather-app-token';
 
+// Reads API responses without crashing on empty JSON.
 async function readJsonSafely(response: Response) {
   const text = await response.text();
 
@@ -20,6 +22,7 @@ async function readJsonSafely(response: Response) {
   }
 }
 
+// Shared API request helper for auth calls.
 async function requestJson<T>(url: string, options?: RequestInit): Promise<T> {
   let response: Response;
 

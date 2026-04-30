@@ -1,7 +1,9 @@
+// The frontend currently displays the first daily weather record.
 function firstDailyWeather(location: any) {
   return Array.isArray(location.dailyWeather) ? location.dailyWeather[0] : location.dailyWeather;
 }
 
+// Converts database field names into the frontend format.
 export function mapHourlyWeather(hourly: any) {
   return {
     id: hourly.id,

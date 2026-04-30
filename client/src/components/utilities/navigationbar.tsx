@@ -1,9 +1,10 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { ROUTES } from './navigation';
 
+// Icons used by both desktop and mobile navigation.
 const navItems = [
   { path: ROUTES.HOME, icon: 'Home.png' },
-  { path: ROUTES.LOCATION(1), icon: 'Location.svg' },
+  { path: ROUTES.LOCATION(0), icon: 'Location.svg' },
   { path: ROUTES.LOGIN, icon: 'Users.svg' },
 ];
 

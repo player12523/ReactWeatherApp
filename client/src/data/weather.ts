@@ -1,3 +1,4 @@
+// Shared frontend types for weather and user data returned by the API.
 export interface User {
   id: number;
   username: string;
@@ -36,6 +37,7 @@ export interface DailyWeather {
   HourlyWeather: HourlyWeather[];
 }
 
+// Requests weather card data from the backend API.
 export async function fetchWeather(search = ''): Promise<Location[]> {
   const params = new URLSearchParams();
   if (search.trim()) params.set('search', search.trim());

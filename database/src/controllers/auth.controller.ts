@@ -3,10 +3,12 @@ import prisma from "../lib/prisma";
 import { createToken, hashPassword } from "../utils/auth";
 import { mapUser } from "../utils/weatherMapper";
 
+// Basic trim helper for form input.
 function clean(value: unknown) {
   return typeof value === "string" ? value.trim() : "";
 }
 
+// Creates a new user and returns a login token.
 export async function register(req: Request, res: Response) {
   const username = clean(req.body.username);
   const password = clean(req.body.password);
@@ -38,6 +40,7 @@ export async function register(req: Request, res: Response) {
   });
 }
 
+// Checks user credentials and returns a login token.
 export async function login(req: Request, res: Response) {
   const username = clean(req.body.username);
   const password = clean(req.body.password);
@@ -60,6 +63,7 @@ export async function login(req: Request, res: Response) {
   });
 }
 
+// Returns the currently logged-in user.
 export async function me(req: Request, res: Response) {
   if (!req.userId) {
     return res.status(401).json({ error: "You must be logged in." });
@@ -81,6 +85,7 @@ export async function logout(_req: Request, res: Response) {
   return res.json({ message: "Logged out" });
 }
 
+// Removes the current user and their favourites.
 export async function deleteMe(req: Request, res: Response) {
   const userId = req.userId;
 

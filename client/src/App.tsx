@@ -8,11 +8,13 @@ import Navigation from './components/utilities/navigationbar';
 function App() {
   return (
     <BrowserRouter>
+      {/* Shared navigation appears on every page. */}
       <Navigation></Navigation>
 
       <main className="sm:ml-16 pb-16 sm:pb-0 p-4 sm:p-6 overflow-x-hidden">
         <h1 className="text-3xl font-bold mb-6">WeatherApp</h1>
 
+        {/* Main page routes. */}
         <Routes>
           <Route path="/" element={<IndexPage />} />
           <Route path="/location/:id" element={<LocationPage />} />

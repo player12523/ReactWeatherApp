@@ -4,6 +4,8 @@ import { requireAuth } from "../middleware/auth.middleware";
 
 const router = Router();
 
+// Account routes used by login, register and settings.
+
 router.post("/register", register);
 router.post("/login", login);
 router.post("/logout", requireAuth, logout);

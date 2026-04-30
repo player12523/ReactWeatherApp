@@ -148,6 +148,7 @@ const weatherLocations = [
   },
 ];
 
+// Clears dependent tables first so the seed can be rerun safely.
 async function clearDatabase() {
   await prisma.hourlyWeather.deleteMany();
   await prisma.dailyWeather.deleteMany();
@@ -192,6 +193,7 @@ async function seedWeather() {
   return createdLocations;
 }
 
+// Adds example users for testing login and favourites.
 async function seedUsers(locationIds: number[]) {
   await prisma.user.create({
     data: {

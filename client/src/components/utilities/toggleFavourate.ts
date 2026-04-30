@@ -1,6 +1,7 @@
 import type { Location, User } from '../../data/weather';
 import { authHeaders } from '../../data/auth';
 
+// Sends the favourite change to the protected API route.
 export async function toggleFavorite(location: Location, user: User | null) {
   if (!user) {
     alert('Please log in to manage your favourite locations.');

@@ -5,6 +5,7 @@ interface Props {
   timeSlots: HourlyWeatherType[];
 }
 
+// Renders hourly forecast items in a horizontal list.
 export function HourlyWeather({ timeSlots }: Props) {
   return (
     <div className="flex overflow-x-auto space-x-2 py-2">

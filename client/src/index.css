@@ -10,10 +10,12 @@ body,
   overflow-x: hidden;
 }
 
+/* Lets text size respond to the card width. */
 .weather-card {
   container-type: inline-size;
 }
 
+/* Keeps long province names inside the card header. */
 .province-title {
   display: -webkit-box;
   overflow: hidden;

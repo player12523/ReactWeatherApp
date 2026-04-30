@@ -2,6 +2,7 @@ import prisma from "../lib/prisma";
 import { Request, Response } from "express";
 import { mapLocation } from "../utils/weatherMapper";
 
+// Includes related daily and hourly weather when a location is loaded.
 const weatherInclude = {
   dailyWeather: {
     include: {
@@ -78,6 +79,7 @@ export const deleteWeather = async (req: Request, res: Response) => {
   }
 };
 
+// Reads matching weather locations for the home page.
 export const getWeather = async (req: Request, res: Response) => {
   try {
     const search = typeof req.query.search === "string" ? req.query.search.trim() : "";
@@ -102,6 +104,7 @@ export const getWeather = async (req: Request, res: Response) => {
   }
 };
 
+// Reads one weather location for the detail page.
 export const getWeatherById = async (req: Request, res: Response) => {
   try {
     const location = await prisma.location.findFirst({

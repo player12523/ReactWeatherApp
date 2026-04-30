@@ -10,6 +10,7 @@ export default function WeatherLocation({ location }: { location: Location }) {
   const [user, setUser] = useState<User | null>(null);
   const [favouriteIds, setFavouriteIds] = useState<number[]>([]);
 
+  // Loads the current user so the favourite star matches their account.
   useEffect(() => {
     getCurrentUser().then((currentUser) => {
       setUser(currentUser);

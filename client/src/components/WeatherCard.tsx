@@ -16,6 +16,7 @@ export default function LocationCard({ Location, User }: LocationCardProps) {
   const [favouriteIds, setFavouriteIds] = useState<number[]>(User?.favouratesIds ?? []);
   const isFavourite = favouriteIds.includes(Location.id);
 
+  // Stops the card opening when the favourite star is pressed.
   async function handleFavouriteClick(event: MouseEvent<HTMLButtonElement>) {
     event.stopPropagation();
 

@@ -1,5 +1,6 @@
 import type { Location } from '../../data/weather';
 
+// Central route list so page paths stay consistent.
 export const ROUTES = {
   HOME: '/',
   LOGIN: '/login',
@@ -27,6 +28,7 @@ export function goToLocation(navigate: (path: string) => void, locationId: numbe
   navigate(ROUTES.LOCATION(locationId));
 }
 
+// Fetches one location for the detail page.
 export async function callWeatherLocation(locationId: number): Promise<Location | null> {
   try {
     const response = await fetch(`/api/weather/${locationId}`);

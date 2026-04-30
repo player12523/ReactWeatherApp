@@ -10,7 +10,7 @@ import authRoutes from "./routes/auth.routes";
 const app = express();
 const PORT = Number(process.env.PORT ?? 3000);
 
-// Middleware
+// Allows the API to read JSON request bodies.
 app.use(express.json());
 
 // Basic CORS for development when the React app is served by Vite.
@@ -32,6 +32,7 @@ const swaggerDocument = YAML.load(
 );
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
+// API route groups used by the React client.
 // Routes
 app.use("/api/weather", weatherRoutes);
 app.use("/api/locations", weatherRoutes);

@@ -1,7 +1,9 @@
 import crypto from "crypto";
 
+// Shared secret used for password hashes and simple tokens.
 const SECRET = process.env.AUTH_SECRET ?? "weather-app-dev-secret";
 
+// Hashes passwords before they are stored.
 export function hashPassword(password: string) {
   return crypto
     .createHash("sha256")
@@ -9,6 +11,7 @@ export function hashPassword(password: string) {
     .digest("hex");
 }
 
+// Creates a signed token for the logged-in user.
 export function createToken(userId: number) {
   const payload = Buffer.from(JSON.stringify({ userId, createdAt: Date.now() })).toString("base64url");
   const signature = crypto
@@ -19,6 +22,7 @@ export function createToken(userId: number) {
   return `${payload}.${signature}`;
 }
 
+// Validates a token and returns the stored user id.
 export function readToken(token: string) {
   const [payload, signature] = token.split(".");
   if (!payload || !signature) return null;
