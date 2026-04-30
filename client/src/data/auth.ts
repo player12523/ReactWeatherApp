@@ -2,6 +2,46 @@ import type { User } from './weather';
 
 const TOKEN_KEY = 'weather-app-token';
 
+async function readJsonSafely(response: Response) {
+  const text = await response.text();
+
+  if (!text) {
+    return null;
+  }
+
+  try {
+    return JSON.parse(text);
+  } catch {
+    throw new Error(
+      response.ok
+        ? 'The server returned an invalid response.'
+        : `The server returned an invalid response. Status: ${response.status}`,
+    );
+  }
+}
+
+async function requestJson<T>(url: string, options?: RequestInit): Promise<T> {
+  let response: Response;
+
+  try {
+    response = await fetch(url, options);
+  } catch {
+    throw new Error('Could not connect to the API server. Make sure the database/server project is running on localhost:3000.');
+  }
+
+  const data = await readJsonSafely(response);
+
+  if (!response.ok) {
+    const serverError = data && typeof data === 'object' && 'error' in data
+      ? String((data as { error: unknown }).error)
+      : `Request failed with status ${response.status}.`;
+
+    throw new Error(serverError);
+  }
+
+  return data as T;
+}
+
 export function getToken() {
   return localStorage.getItem(TOKEN_KEY);
 }
@@ -28,39 +68,31 @@ export async function getCurrentUser(): Promise<User | null> {
   const token = getToken();
   if (!token) return null;
 
-  const response = await fetch('/api/auth/me', {
-    headers: authHeaders(),
-  });
-
-  if (!response.ok) {
+  try {
+    return await requestJson<User>('/api/auth/me', {
+      headers: authHeaders(),
+    });
+  } catch {
     clearToken();
     return null;
   }
-
-  return response.json();
 }
 
 export async function login(username: string, password: string): Promise<User> {
-  const response = await fetch('/api/auth/login', {
+  const data = await requestJson<{ token: string; user: User }>('/api/auth/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ username, password }),
   });
-
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(data.error ?? 'Login failed');
-  }
 
   setToken(data.token);
   return data.user;
 }
 
 export async function register(username: string, password: string): Promise<User> {
-  const response = await fetch('/api/auth/register', {
+  const data = await requestJson<{ token: string; user: User }>('/api/auth/register', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -68,35 +100,26 @@ export async function register(username: string, password: string): Promise<User
     body: JSON.stringify({ username, password }),
   });
 
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(data.error ?? 'Register failed');
-  }
-
   setToken(data.token);
   return data.user;
 }
 
 export async function logout() {
-  await fetch('/api/auth/logout', {
-    method: 'POST',
-    headers: authHeaders(),
-  });
-
-  clearToken();
+  try {
+    await requestJson<{ message: string }>('/api/auth/logout', {
+      method: 'POST',
+      headers: authHeaders(),
+    });
+  } finally {
+    clearToken();
+  }
 }
 
 export async function deleteAccount() {
-  const response = await fetch('/api/auth/me', {
+  await requestJson<{ message: string }>('/api/auth/me', {
     method: 'DELETE',
     headers: authHeaders(),
   });
-
-  if (!response.ok) {
-    const data = await response.json();
-    throw new Error(data.error ?? 'Could not delete account');
-  }
 
   clearToken();
 }

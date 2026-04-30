@@ -3,7 +3,7 @@ import { ROUTES } from './navigation';
 
 const navItems = [
   { path: ROUTES.HOME, icon: 'Home.png' },
-  { path: ROUTES.LOCATION(1), icon: 'Location.svg' },
+  { path: ROUTES.LOCATION(0), icon: 'Location.svg' },
   { path: ROUTES.LOGIN, icon: 'Users.svg' },
 ];
 

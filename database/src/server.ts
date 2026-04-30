@@ -1,4 +1,4 @@
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 import path from "path";
 import swaggerUi from "swagger-ui-express";
 import YAML from "yamljs";
@@ -34,11 +34,32 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Routes
 app.use("/api/weather", weatherRoutes);
+app.use("/api/locations", weatherRoutes);
 app.use("/api/favourites", favouriteRoutes);
 app.use("/api/auth", authRoutes);
 
 // Static fallback
 app.use(express.static(path.join(__dirname, "..", "public")));
+
+app.use((req, res) => {
+  if (req.path.startsWith("/api/")) {
+    return res.status(404).json({ error: "API route not found." });
+  }
+
+  return res.status(404).send("Page not found");
+});
+
+app.use((error: unknown, _req: Request, res: Response, _next: NextFunction) => {
+  console.error(error);
+
+  const message = error instanceof Error
+    ? error.message
+    : "An unexpected server error occurred.";
+
+  return res.status(500).json({
+    error: message,
+  });
+});
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
