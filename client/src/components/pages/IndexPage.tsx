@@ -45,7 +45,7 @@ export default function IndexPage() {
       {loading ? (
         <p className="p-6">Loading…</p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,280px),1fr))] gap-6">
           {locations.map((weather) => (
             <WeatherCard key={weather.id} Location={weather} User={user} />
           ))}

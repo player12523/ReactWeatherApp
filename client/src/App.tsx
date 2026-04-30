@@ -10,7 +10,7 @@ function App() {
     <BrowserRouter>
       <Navigation></Navigation>
 
-      <main className="sm:ml-16 pb-16 sm:pb-0 p-6">
+      <main className="sm:ml-16 pb-16 sm:pb-0 p-4 sm:p-6 overflow-x-hidden">
         <h1 className="text-3xl font-bold mb-6">WeatherApp</h1>
 
         <Routes>
