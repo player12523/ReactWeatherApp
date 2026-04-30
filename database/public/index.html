@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weather Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-50 min-h-screen">
+
+<!-- Header -->
+<header class="bg-slate-900 text-white">
+  <div class="max-w-6xl mx-auto px-4 py-6 sm:px-6 sm:py-8">
+    <div class="flex items-center gap-3">
+      <div>
+        <h1 class="text-2xl sm:text-3xl font-bold tracking-tight">
+          Weather Dashboard
+        </h1>
+        <p class="text-slate-300 text-sm sm:text-base mt-1">
+          Location-based weather system (Daily + Hourly data)
+        </p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Stats Bar -->
+<section id="stats" class="bg-white border-b border-slate-200">
+  <div class="max-w-6xl mx-auto px-4 py-3 sm:px-6 flex flex-wrap gap-4 text-sm text-slate-700">
+    <span>Loading...</span>
+  </div>
+</section>
+
+<!-- Weather Grid -->
+<main class="max-w-6xl mx-auto px-4 py-6 sm:px-6 sm:py-8">
+  <div
+    id="weather-grid"
+    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
+  ></div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-slate-900 text-slate-400 text-center text-sm py-4 mt-8">
+  Weather API Dashboard
+</footer>
+
+<script>
+  function createWeatherCard(location) {
+    return `
+      <article class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-md transition-shadow">
+
+        <div class="bg-slate-700 px-4 py-2">
+          <span class="text-xs font-semibold text-slate-200 uppercase tracking-wide">
+            ${location.countryName}
+          </span>
+        </div>
+
+        <div class="p-4 sm:p-5">
+
+          <h2 class="font-bold text-slate-900 text-lg leading-snug">
+            ${location.locationName}
+          </h2>
+
+          <p class="text-slate-600 text-sm mt-1">
+            ${location.provinceName}
+          </p>
+
+          <dl class="mt-3 space-y-1 text-sm text-slate-700">
+
+            <div class="flex justify-between">
+              <dt class="font-medium">Latitude</dt>
+              <dd class="text-slate-500">${location.latitude}</dd>
+            </div>
+
+            <div class="flex justify-between">
+              <dt class="font-medium">Longitude</dt>
+              <dd class="text-slate-500">${location.longitude}</dd>
+            </div>
+
+            <div class="flex justify-between">
+              <dt class="font-medium">Daily Records</dt>
+              <dd class="text-slate-500">
+                ${location.dailyWeather ? location.dailyWeather.length : 0}
+              </dd>
+            </div>
+
+          </dl>
+
+          <div class="mt-4 text-xs text-slate-500">
+            Includes daily and hourly weather data
+          </div>
+
+        </div>
+      </article>
+    `;
+  }
+
+  function renderStats(locations) {
+    const total = locations.length;
+
+    document.querySelector("#stats > div").innerHTML = `
+      <span><strong>${total}</strong> locations</span>
+    `;
+  }
+
+  async function loadWeather() {
+    const response = await fetch("/api/weather"); 
+    const locations = await response.json();
+
+    const grid = document.getElementById("weather-grid");
+    grid.innerHTML = locations.map(createWeatherCard).join("");
+
+    renderStats(locations);
+  }
+
+  loadWeather();
+</script>
+
+</body>
+</html>

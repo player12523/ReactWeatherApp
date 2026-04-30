@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import type { User } from '../../data/weather';
  
@@ -19,7 +20,7 @@ export default function LoginPage() {
   // This function calls our API and stores the result in state.
   async function fetchUser() {
     try {
-      const res = await fetch('/api/books');
+      const res = await fetch('/api/User');
       const data: User[] = await res.json();
       setUser(data);
     } catch (err) {

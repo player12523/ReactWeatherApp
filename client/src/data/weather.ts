@@ -36,3 +36,14 @@ export interface DailyWeather {
   sundown: string;
   HourlyWeather: HourlyWeather[];
 }
+
+
+export async function fetchWeather(): Promise<Location[]> {
+  const response = await fetch("http://localhost:3000/api/weather");
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch weather data");
+  }
+
+  return response.json();
+}

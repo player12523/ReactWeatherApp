@@ -1,0 +1,65 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+ 
+datasource db {
+  provider = "postgresql"
+}
+
+model FavouriteIds {
+  id         Int      @id @default(autoincrement())
+  location   Location @relation(fields: [locationId], references: [id])
+  locationId Int
+  user       User     @relation(fields: [userId], references: [id])
+  userId     Int
+}
+
+model User {
+  id             Int             @id @default(autoincrement())
+  username       String
+  hashedPassword String
+  favourites     FavouriteIds[]
+}
+
+model Location {
+  id            Int            @id @default(autoincrement())
+  locationName  String
+  provinceName  String
+  countryName   String
+  latitude      Float
+  longitude     Float
+
+  dailyWeather  DailyWeather[]
+
+  favourites    FavouriteIds[]
+}
+
+model DailyWeather {
+  id               Int              @id @default(autoincrement())
+  dateTime         String
+  rainfall         Float
+  weatherCodeDay   Int
+  weatherCodeNight Int
+  temperatureMax   Float
+  temperatureMin   Float
+  humidity         Float
+  windSpeed        Float
+  sundown          String
+
+  location   Location @relation(fields: [locationId], references: [id])
+  locationId Int
+
+  hourlyWeather HourlyWeather[]
+}
+
+model HourlyWeather {
+  id            Int      @id @default(autoincrement())
+  dateTime      String
+  weatherCode   Int
+  temperature   Float
+  rainfall      Float
+
+  dailyWeather   DailyWeather @relation(fields: [dailyWeatherId], references: [id])
+  dailyWeatherId Int
+}

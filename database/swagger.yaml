@@ -1,0 +1,421 @@
+openapi: 3.0.3
+info:
+  title: Weather API
+  description: |
+    API for managing weather information.
+    Built as part of **COM5409 — Web Design & Programming**.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000
+    description: Local development server
+
+tags:
+  - name: Weather
+    description: Manage weather information
+
+paths:
+  /api/weather:
+    get:
+      tags: [Weather]
+      summary: Get all weather data
+      responses:
+        "200":
+          description: List of weather
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Weather"
+
+    post:
+      tags: [Weather]
+      summary: Create weather (nested)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewWeather"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Weather"
+
+  /api/weather/{id}:
+    get:
+      tags: [Weather]
+      summary: Get weather by ID
+      parameters:
+        - $ref: "#/components/parameters/WeatherId"
+      responses:
+        "200":
+          description: Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Weather"
+
+    patch:
+      tags: [Weather]
+      summary: Update weather
+      parameters:
+        - $ref: "#/components/parameters/WeatherId"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateWeather"
+      responses:
+        "200":
+          description: Updated
+
+    delete:
+      tags: [Weather]
+      summary: Delete weather
+      parameters:
+        - $ref: "#/components/parameters/WeatherId"
+      responses:
+        "200":
+          description: Deleted
+
+  /api/favourites/toggle:
+    post:
+      tags: [Favourites]
+      summary: Toggle favourite
+      description: Creates or deletes favourite entry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TriggerFavourite"
+      responses:
+        "200":
+          description: Toggled
+
+  /api/favourites/weather:
+    post:
+      tags: [Favourites]
+      summary: Get favourite weather
+      description: Returns all favourite locations with full weather
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FavouriteWeatherRequest"
+      responses:
+        "200":
+          description: List of favourite weather
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Weather"
+
+components:
+  parameters:
+    WeatherId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+
+  schemas:
+    Weather:
+      type: object
+      properties:
+        id:
+          type: integer
+        locationName:
+          type: string
+        provinceName:
+          type: string
+        countryName:
+          type: string
+        latitude:
+          type: number
+        longitude:
+          type: number
+        dailyWeather:
+          type: array
+          items:
+            $ref: "#/components/schemas/DailyWeather"
+
+    DailyWeather:
+      type: object
+      properties:
+        id:
+          type: integer
+        dateTime:
+          type: string
+        rainfall:
+          type: number
+        weatherCodeDay:
+          type: integer
+        weatherCodeNight:
+          type: integer
+        temperatureMax:
+          type: number
+        temperatureMin:
+          type: number
+        humidity:
+          type: number
+        windSpeed:
+          type: number
+        sundown:
+          type: string
+        hourlyWeather:
+          type: array
+          items:
+            $ref: "#/components/schemas/HourlyWeather"
+
+    HourlyWeather:
+      type: object
+      properties:
+        id:
+          type: integer
+        dateTime:
+          type: string
+        weatherCode:
+          type: integer
+        temperature:
+          type: number
+        rainfall:
+          type: number
+
+    NewWeather:
+      type: object
+      required:
+        - locationName
+        - dailyWeather
+      properties:
+        locationName:
+          type: string
+        provinceName:
+          type: string
+        countryName:
+          type: string
+        latitude:
+          type: number
+        longitude:
+          type: number
+        dailyWeather:
+          type: array
+          items:
+            type: object
+            required:
+              - dateTime
+              - hourlyWeather
+            properties:
+              dateTime:
+                type: string
+              rainfall:
+                type: number
+              weatherCodeDay:
+                type: integer
+              weatherCodeNight:
+                type: integer
+              temperatureMax:
+                type: number
+              temperatureMin:
+                type: number
+              humidity:
+                type: number
+              windSpeed:
+                type: number
+              sundown:
+                type: string
+              hourlyWeather:
+                type: array
+                items:
+                  $ref: "#/components/schemas/HourlyWeather"
+
+    UpdateWeather:
+      type: object
+      properties:
+        locationName:
+          type: string
+        provinceName:
+          type: string
+        countryName:
+          type: string
+        latitude:
+          type: number
+        longitude:
+          type: number
+
+    TriggerFavourite:
+      type: object
+      required:
+        - userId
+        - locationId
+      properties:
+        userId:
+          type: integer
+        locationId:
+          type: integer
+
+    FavouriteWeatherRequest:
+      type: object
+      required:
+        - userId
+      properties:
+        userId:
+          type: integer
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+  parameters:
+    WeatherId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+        example: 1
+
+    UserId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+        example: 1
+
+  schemas:
+    Weather:
+      type: object
+      properties:
+        id:
+          type: integer
+        locationName:
+          type: string
+        provinceName:
+          type: string
+        countryName:
+          type: string
+        latitude:
+          type: number
+        longitude:
+          type: number
+        dailyWeather:
+          type: array
+          items:
+            $ref: "#/components/schemas/DailyWeather"
+
+    DailyWeather:
+      type: object
+      properties:
+        id:
+          type: integer
+        dateTime:
+          type: string
+        rainfall:
+          type: number
+        weatherCodeDay:
+          type: integer
+        weatherCodeNight:
+          type: integer
+        temperatureMax:
+          type: number
+        temperatureMin:
+          type: number
+        humidity:
+          type: number
+        windSpeed:
+          type: number
+        sundown:
+          type: string
+        hourlyWeather:
+          type: array
+          items:
+            $ref: "#/components/schemas/HourlyWeather"
+
+    HourlyWeather:
+      type: object
+      properties:
+        id:
+          type: integer
+        dateTime:
+          type: string
+        weatherCode:
+          type: integer
+        temperature:
+          type: number
+        rainfall:
+          type: number
+
+    NewWeather:
+      type: object
+      required:
+        - locationName
+      properties:
+        locationName:
+          type: string
+        provinceName:
+          type: string
+        countryName:
+          type: string
+        latitude:
+          type: number
+        longitude:
+          type: number
+
+    UpdateWeather:
+      type: object
+      properties:
+        locationName:
+          type: string
+        provinceName:
+          type: string
+        countryName:
+          type: string
+        latitude:
+          type: number
+        longitude:
+          type: number
+
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+
+    NewUser:
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+
+    UpdateUser:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          example: "Resource not found"

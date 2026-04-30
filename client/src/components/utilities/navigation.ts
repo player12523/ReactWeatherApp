@@ -31,7 +31,7 @@ export function goToLocation(navigate: (path: string) => void, locationId: numbe
 
 export async function callWeatherLocation(locationId: number): Promise<Location | null> {
   try {
-    const response = await fetch(`/api/location/${locationId}`);
+    const response = await fetch(`http://localhost:3000/api/weather?${locationId}`);
 
     if (!response.ok) {
       throw new Error('Failed to fetch location data');

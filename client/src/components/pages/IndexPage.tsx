@@ -26,7 +26,7 @@ export default function LoginPage() {
       const params = new URLSearchParams();
       if (search) params.set('search', search);
   
-      const res = await fetch(`/api/Location?${params}`);
+      const res = await fetch(`http://localhost:3000/api/weather?${params}`);
       const data: Location[] = await res.json();
       setLocation(data);
     } catch (err) {
