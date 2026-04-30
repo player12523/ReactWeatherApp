@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import WeatherLocation from '../WeatherLocation';
 import { callWeatherLocation } from '../utilities/navigation';
 import type { Location } from '../../data/weather';
 
@@ -10,18 +11,15 @@ export default function LocationPage() {
   useEffect(() => {
     async function load() {
       if (!id) return;
+
       const data = await callWeatherLocation(Number(id));
       setLocation(data);
     }
+
     load();
   }, [id]);
 
   if (!location) return <p>Loading...</p>;
 
-  return (
-    <div>
-      <h1>{location.LocationName}</h1>
-      {/* Your detailed UI here */}
-    </div>
-  );
+  return <WeatherLocation location={location} />;
 }

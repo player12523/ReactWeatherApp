@@ -1,19 +1,27 @@
 import type { Location, User } from '../../data/weather';
+import { authHeaders } from '../../data/auth';
 
 export async function toggleFavorite(location: Location, user: User | null) {
   if (!user) {
-    alert("Please log in to manage your favorite locations.");
-    return;
+    alert('Please log in to manage your favourite locations.');
+    return null;
   }
 
   try {
-    await fetch(`/api/${user.id}/favouritesIds/${location.id}`, {
+    const response = await fetch(`/api/favourites/${location.id}/toggle`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: authHeaders(),
     });
+
+    if (!response.ok) {
+      const data = await response.json();
+      throw new Error(data.error ?? 'Could not update favourite.');
+    }
+
+    return await response.json();
   } catch (error) {
-    console.error('Error toggling favorite status:', error);
+    console.error('Error toggling favourite status:', error);
+    alert('Could not update favourite. Please try again.');
+    return null;
   }
 }

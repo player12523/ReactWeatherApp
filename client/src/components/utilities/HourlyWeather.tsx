@@ -1,4 +1,5 @@
 import type { HourlyWeather as HourlyWeatherType } from '../../data/weather';
+import WeatherIcon from './WeatherIcons';
 
 interface Props {
   timeSlots: HourlyWeatherType[];
@@ -16,11 +17,7 @@ export function HourlyWeather({ timeSlots }: Props) {
             {slot.DateTime}
           </p>
 
-          <img
-            src={`public/images/${slot.WeatherCode}.png`}
-            alt="WeatherIcon"
-            className="w-4 h-4 mx-auto my-1"
-          />
+          <WeatherIcon code={slot.WeatherCode} className="w-4 h-4 mx-auto my-1" />
 
           <p className="text-sm font-medium text-slate-900">
             {slot.Temperature}°C

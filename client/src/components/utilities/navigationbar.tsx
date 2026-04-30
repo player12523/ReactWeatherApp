@@ -3,7 +3,7 @@ import { ROUTES } from './navigation';
 
 const navItems = [
   { path: ROUTES.HOME, icon: 'Home.png' },
-  { path: ROUTES.LOCATION(0), icon: 'Location.svg' },
+  { path: ROUTES.LOCATION(1), icon: 'Location.svg' },
   { path: ROUTES.LOGIN, icon: 'Users.svg' },
 ];
 
@@ -31,7 +31,7 @@ export default function Navigation() {
               }`}
             >
               <img
-                src={`../../public/navigation/${item.icon}`}
+                src={`/navigation/${item.icon}`}
                 className="w-6 h-6"
               />
             </button>

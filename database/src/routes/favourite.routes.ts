@@ -1,12 +1,13 @@
 import { Router } from "express";
 import {
   toggleFavourite,
-  getFavouriteWeather
+  getFavouriteWeather,
 } from "../controllers/favourite.controller";
+import { requireAuth } from "../middleware/auth.middleware";
 
 const router = Router();
 
-router.post("/toggle", toggleFavourite);
-router.post("/weather", getFavouriteWeather);
+router.get("/weather", requireAuth, getFavouriteWeather);
+router.post("/:locationId/toggle", requireAuth, toggleFavourite);
 
 export default router;

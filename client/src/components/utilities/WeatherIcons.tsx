@@ -19,11 +19,11 @@ type WeatherIconProps = {
 };
 
 export default function WeatherIcon({ code, className = 'w-6 h-6' }: WeatherIconProps) {
-  const icon = weatherIcons[code] || 'cloudy.svg'; // fallback
+  const icon = weatherIcons[code] || 'cloudy.svg';
 
   return (
     <img
-      src={`../../public/weather/${icon}`}
+      src={`/weather/${icon}`}
       className={className}
       alt="weather icon"
     />

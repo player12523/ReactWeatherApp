@@ -1,43 +1,96 @@
+import { FormEvent, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { login, register } from '../../data/auth';
+import { ROUTES } from '../utilities/navigation';
 
-import { useState, useEffect } from 'react';
-import type { User } from '../../data/weather';
- 
 export default function LoginPage() {
-  // It starts as an empty array.
-  // 'setBooks' is the function we call to update it.
-  const [User, setUser] = useState<User[]>([]);
- 
-  // A second state variable to track whether data is loading.
-  const [loading, setLoading] = useState(true);
- 
-  // useEffect runs the function inside it when the component
-  // first mounts (appears on screen). The empty array []
-  // means 'run this only once'.
-  useEffect(() => {
-    fetchUser();
-  }, []);
- 
-  // This function calls our API and stores the result in state.
-  async function fetchUser() {
+  const navigate = useNavigate();
+  const [mode, setMode] = useState<'login' | 'register'>('login');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
+
+  async function handleSubmit(event: FormEvent) {
+    event.preventDefault();
+    setMessage('');
+
     try {
-      const res = await fetch('/api/User');
-      const data: User[] = await res.json();
-      setUser(data);
-    } catch (err) {
-      console.error('Failed to fetch Users:', err);
-    } finally {
-      setLoading(false);
+      if (mode === 'login') {
+        await login(username, password);
+      } else {
+        await register(username, password);
+      }
+
+      navigate(ROUTES.HOME);
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : 'Something went wrong.');
     }
   }
- 
-  // While loading, show a simple message instead of the grid.
-  if (loading) return <p className="p-6">Loading…</p>;
- 
-  // Once loaded, send a confermation responce
+
   return (
-      <div className="grid grid-cols-1 sm:grid-cols-2
-                      lg:grid-cols-3 gap-6">
-        there should be an output.
-      </div>
+    <div className="max-w-md mx-auto bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+      <h2 className="text-2xl font-bold text-slate-900 mb-2">
+        {mode === 'login' ? 'Login' : 'Register'}
+      </h2>
+
+      <p className="text-sm text-slate-600 mb-6">
+        {mode === 'login'
+          ? 'Log in to save favourite locations and manage your account.'
+          : 'Create an account so your user information can be saved.'}
+      </p>
+
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label className="block text-sm font-medium text-slate-700">
+            Username
+          </label>
+          <input
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2"
+            required
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-slate-700">
+            Password
+          </label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2"
+            required
+          />
+        </div>
+
+        {message && (
+          <p className="text-sm text-red-600">
+            {message}
+          </p>
+        )}
+
+        <button
+          type="submit"
+          className="w-full rounded-lg bg-slate-700 text-white py-2 hover:bg-slate-800"
+        >
+          {mode === 'login' ? 'Login' : 'Register'}
+        </button>
+      </form>
+
+      <button
+        type="button"
+        onClick={() => {
+          setMessage('');
+          setMode(mode === 'login' ? 'register' : 'login');
+        }}
+        className="mt-4 text-sm text-sky-700 hover:underline"
+      >
+        {mode === 'login'
+          ? 'Need an account? Register here.'
+          : 'Already have an account? Login here.'}
+      </button>
+    </div>
   );
 }
